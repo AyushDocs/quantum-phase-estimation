@@ -65,18 +65,13 @@ export default function PhaseGatePage() {
 
       {/* Circuit diagram */}
       <section>
-        <h2 className="mb-3 text-lg font-semibold text-slate-300">Circuit</h2>
-        <div className="card overflow-x-auto">
-          <pre className="text-xs leading-relaxed text-slate-400">
-{`|0⟩  ── H ────•─────────•───────•── ── QFT† ── ⊗
-               │         │       │
-|0⟩  ── H ────┼─────────•───────┼── ── QFT† ── ⊗
-               │         │       │
-...           │         │       │
-|0⟩  ── H ────┼─────────┼───────•── ── QFT† ── ⊗
-               │         │       │
-|1⟩  ──────── P(θ) ── P(2θ) ── P(4θ) ── ...`}
-          </pre>
+        <h2 className="mb-3 text-lg font-semibold text-slate-300">Circuit (Qiskit generated)</h2>
+        <div className="card overflow-x-auto flex justify-center p-4">
+          <img
+            src="/qpe_circuit_n4.png"
+            alt="Qiskit generated 4-ancilla QPE circuit diagram"
+            className="max-h-64 object-contain rounded-lg border border-white/5 bg-slate-950/40 p-2"
+          />
         </div>
       </section>
 

@@ -15,10 +15,10 @@ export default function Navbar() {
   const path = usePathname();
 
   return (
-    <nav className="sticky top-0 z-50 border-b border-white/10 bg-[#0f172a]/80 backdrop-blur-md">
+    <nav className="sticky top-0 z-50 border-b border-[var(--bg-card)]/10 bg-[var(--bg-dark)]/80 backdrop-blur-md">
       <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
         <Link href="/" className="flex items-center gap-2 text-sm font-semibold">
-          <span className="flex h-7 w-7 items-center justify-center rounded-md bg-indigo-500 text-xs font-bold text-white">
+          <span className="flex h-7 w-7 items-center justify-center rounded-md bg-[var(--primary)] text-xs font-bold text-[var(--bg-dark)]">
             QPE
           </span>
           <span className="hidden sm:inline">Quantum Phase Estimation</span>
@@ -33,8 +33,8 @@ export default function Navbar() {
                 href={l.href}
                 className={`rounded-md px-3 py-1.5 text-xs font-medium transition-colors ${
                   active
-                    ? "bg-indigo-500/20 text-indigo-300"
-                    : "text-slate-400 hover:bg-white/5 hover:text-slate-200"
+                    ? "bg-[var(--primary)]/10 text-[var(--primary)]"
+                    : "text-[var(--text-muted)] hover:bg-[var(--bg-card)]/10 hover:text-[var(--text)]"
                 }`}
               >
                 {l.label}
