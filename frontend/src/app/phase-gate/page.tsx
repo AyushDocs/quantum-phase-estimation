@@ -68,8 +68,8 @@ export default function PhaseGatePage() {
         <h2 className="mb-3 text-lg font-semibold text-[var(--text)]">Circuit (Qiskit generated)</h2>
         <div className="card overflow-x-auto flex justify-center p-4">
           <img
-            src="/qpe_circuit_n4.png"
-            alt="Qiskit generated 4-ancilla QPE circuit diagram"
+            src={`/qpe_circuit_n${n}.png`}
+            alt={`Qiskit generated ${n}-ancilla QPE circuit diagram`}
             className="max-h-64 object-contain rounded-lg border border-[var(--primary)]/15 bg-white p-2"
           />
         </div>
