@@ -1,17 +1,17 @@
 @import "tailwindcss";
 
 :root {
-  --primary: #b8860b;
+  --primary: #a67c00; /* Rich gold */
   --primary-light: #d4af37;
-  --bg-dark: #faf3e0;
+  --bg-dark: #faf6eb; /* Light creamy beige */
   --bg-card: #ffffff;
-  --bg-card-hover: #f0e6d2;
-  --text: #5d4037;
-  --text-muted: #8d6e63;
-  --accent-cyan: #d4af37;
-  --accent-amber: #e8c06e;
-  --accent-rose: #f5deb3;
-  --accent-emerald: #faf3e0;
+  --bg-card-hover: #f7eed7;
+  --text: #2b1d18; /* Very dark coffee brown (WCAG AAA contrast) */
+  --text-muted: #5d483f; /* Medium-dark warm brown (WCAG AA/AAA contrast) */
+  --accent-cyan: #b8860b; /* Goldenrod */
+  --accent-amber: #c59b27;
+  --accent-rose: #d66853; /* Warm terracotta */
+  --accent-emerald: #2e7d32; /* Rich forest green */
 }
 
 body {
@@ -20,13 +20,27 @@ body {
   font-family: var(--font-geist-sans), system-ui, sans-serif;
 }
 
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-dark);
+}
+::-webkit-scrollbar-thumb {
+  background: #dbd0ba;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #c2b7a1;
+}
+
 .math {
   font-family: "Times New Roman", "Georgia", serif;
   font-style: italic;
 }
 
 .gradient-text {
-  background: linear-gradient(135deg, var(--accent-cyan), var(--primary-light));
+  background: linear-gradient(135deg, var(--primary), var(--text-muted));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -34,14 +48,16 @@ body {
 
 .card {
   background: var(--bg-card);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(166, 124, 0, 0.15); /* Soft gold border */
   border-radius: 1rem;
   padding: 1.5rem;
-  transition: border-color 0.2s;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px rgba(43, 29, 24, 0.03);
 }
 
 .card:hover {
-  border-color: rgba(255, 255, 255, 0.12);
+  border-color: rgba(166, 124, 0, 0.3);
+  box-shadow: 0 4px 12px rgba(43, 29, 24, 0.06);
 }
 
 .card-cyan { border-left: 3px solid var(--accent-cyan); }

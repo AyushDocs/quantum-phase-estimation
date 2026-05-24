@@ -55,7 +55,7 @@ export default function PhaseGatePage() {
         <h1 className="mb-2 text-2xl font-bold">
           <span className="gradient-text">1. Phase Gate QPE</span>
         </h1>
-        <p className="text-sm leading-relaxed text-slate-400">
+        <p className="text-sm leading-relaxed text-[var(--text-muted)]">
           We apply QPE to the unitary <span className="math">U = P(θ)</span> using
           eigenstate <span className="math">|1⟩</span> (eigenvalue <span className="math">e^(iθ)</span>).
           The phase <span className="math">φ = θ/(2π)</span> is read out as an n-bit binary fraction from the ancilla
@@ -65,76 +65,76 @@ export default function PhaseGatePage() {
 
       {/* Circuit diagram */}
       <section>
-        <h2 className="mb-3 text-lg font-semibold text-slate-300">Circuit (Qiskit generated)</h2>
+        <h2 className="mb-3 text-lg font-semibold text-[var(--text)]">Circuit (Qiskit generated)</h2>
         <div className="card overflow-x-auto flex justify-center p-4">
           <img
             src="/qpe_circuit_n4.png"
             alt="Qiskit generated 4-ancilla QPE circuit diagram"
-            className="max-h-64 object-contain rounded-lg border border-white/5 bg-slate-950/40 p-2"
+            className="max-h-64 object-contain rounded-lg border border-[var(--primary)]/15 bg-white p-2"
           />
         </div>
       </section>
 
       {/* Controls */}
-      <section className="flex flex-wrap gap-6 rounded-xl border border-white/10 bg-slate-900/50 p-5">
+      <section className="card flex flex-wrap gap-6 p-5">
         <div>
-          <label className="mb-1 block text-xs font-medium text-slate-400">Ancilla qubits (n)</label>
+          <label className="mb-1 block text-xs font-medium text-[var(--text-muted)]">Ancilla qubits (n)</label>
           <input
             type="range" min={2} max={10} value={n}
             onChange={(e) => setN(+e.target.value)}
-            className="w-40 accent-indigo-500"
+            className="w-40 accent-[var(--primary)] text-[var(--primary)]"
           />
-          <span className="ml-2 text-sm font-mono text-slate-300">{n}</span>
+          <span className="ml-2 text-sm font-mono text-[var(--text)]">{n}</span>
         </div>
         <div>
-          <label className="mb-1 block text-xs font-medium text-slate-400">Phase φ = θ/2π</label>
+          <label className="mb-1 block text-xs font-medium text-[var(--text-muted)]">Phase φ = θ/2π</label>
           <input
             type="range" min={0.01} max={0.99} step={0.01} value={theta}
             onChange={(e) => setTheta(+e.target.value)}
-            className="w-40 accent-indigo-500"
+            className="w-40 accent-[var(--primary)] text-[var(--primary)]"
           />
-          <span className="ml-2 text-sm font-mono text-slate-300">{theta.toFixed(2)}</span>
+          <span className="ml-2 text-sm font-mono text-[var(--text)]">{theta.toFixed(2)}</span>
         </div>
       </section>
 
       {/* Results */}
       <section className="grid gap-4 sm:grid-cols-3">
         <div className="card card-cyan">
-          <div className="text-xs text-slate-500">True phase φ</div>
-          <div className="text-xl font-bold text-cyan-400">{truePhase.toFixed(6)}</div>
+          <div className="text-xs text-[var(--text-muted)]">True phase φ</div>
+          <div className="text-xl font-bold text-[var(--accent-cyan)]">{truePhase.toFixed(6)}</div>
         </div>
         <div className="card card-emerald">
-          <div className="text-xs text-slate-500">Estimated φ</div>
-          <div className="text-xl font-bold text-emerald-400">{est.toFixed(6)}</div>
+          <div className="text-xs text-[var(--text-muted)]">Estimated φ</div>
+          <div className="text-xl font-bold text-[var(--accent-emerald)]">{est.toFixed(6)}</div>
         </div>
         <div className="card card-rose">
-          <div className="text-xs text-slate-500">Error</div>
-          <div className="text-xl font-bold text-rose-400">{error.toExponential(3)}</div>
+          <div className="text-xs text-[var(--text-muted)]">Error</div>
+          <div className="text-xl font-bold text-[var(--accent-rose)]">{error.toExponential(3)}</div>
         </div>
       </section>
 
       {/* Chart */}
       <section className="card">
-        <h3 className="mb-3 text-sm font-semibold text-slate-300">Measurement distribution</h3>
+        <h3 className="mb-3 text-sm font-semibold text-[var(--text)]">Measurement distribution</h3>
         <ResponsiveContainer width="100%" height={300}>
           <BarChart data={chartData}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
+            <CartesianGrid strokeDasharray="3 3" stroke="rgba(166, 124, 0, 0.1)" />
             <XAxis
-              dataKey="phase" stroke="#94a3b8" tick={{ fontSize: 11 }}
+              dataKey="phase" stroke="var(--text-muted)" tick={{ fontSize: 11 }}
               tickFormatter={(v) => v.toFixed(3)}
             />
-            <YAxis stroke="#94a3b8" tick={{ fontSize: 11 }} />
+            <YAxis stroke="var(--text-muted)" tick={{ fontSize: 11 }} />
             <Tooltip
-              contentStyle={{ background: "#1e293b", border: "1px solid #334155", borderRadius: 8, fontSize: 12 }}
+              contentStyle={{ background: "var(--bg-card)", border: "1px solid rgba(166, 124, 0, 0.15)", borderRadius: 8, fontSize: 12, color: "var(--text)" }}
               labelFormatter={(v) => `φ = ${(+v).toFixed(4)}`}
             />
-            <Bar dataKey="prob" fill="#818cf8" radius={[2, 2, 0, 0]} />
-            <ReferenceLine x={truePhase} stroke="#f43f5e" strokeWidth={2} strokeDasharray="4 4"
-              label={{ value: "true φ", position: "top", fill: "#f43f5e", fontSize: 11 }}
+            <Bar dataKey="prob" fill="var(--primary)" radius={[2, 2, 0, 0]} />
+            <ReferenceLine x={truePhase} stroke="var(--accent-rose)" strokeWidth={2} strokeDasharray="4 4"
+              label={{ value: "true φ", position: "top", fill: "var(--accent-rose)", fontSize: 11 }}
             />
           </BarChart>
         </ResponsiveContainer>
-        <p className="mt-2 text-xs text-slate-500">
+        <p className="mt-2 text-xs text-[var(--text-muted)]">
           Red dashed line = true phase. With {n} ancilla qubits there are {1 << n} possible outcomes.
         </p>
       </section>

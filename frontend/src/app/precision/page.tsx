@@ -44,7 +44,6 @@ export default function PrecisionPage() {
   const [shots, setShots] = useState(5000);
 
   const data = useMemo(() => simulatePrecision(theta, 10, shots), [theta, shots]);
-  const last = data[data.length - 1];
 
   return (
     <div className="flex flex-col gap-8">
@@ -52,7 +51,7 @@ export default function PrecisionPage() {
         <h1 className="mb-2 text-2xl font-bold">
           <span className="gradient-text">3. Precision Scaling</span>
         </h1>
-        <p className="text-sm leading-relaxed text-slate-400">
+        <p className="text-sm leading-relaxed text-[var(--text-muted)]">
           The number of ancilla qubits n determines how precisely QPE can estimate a phase.
           With n qubits the phase is represented as an n-bit binary fraction, giving a worst-case
           error of <span className="math">1/2<sup>n</sup></span>. This plot compares the
@@ -61,18 +60,24 @@ export default function PrecisionPage() {
         </p>
       </section>
 
-      <section className="flex flex-wrap gap-6 rounded-xl border border-white/10 bg-slate-900/50 p-5">
+      {/* Controls Card */}
+      <section className="card flex flex-wrap gap-6 p-5">
         <div>
-          <label className="mb-1 block text-xs font-medium text-slate-400">Phase φ</label>
-          <input type="range" min={0.02} max={0.98} step={0.02} value={theta}
+          <label className="mb-1 block text-xs font-medium text-[var(--text-muted)]">Phase φ</label>
+          <input
+            type="range" min={0.02} max={0.98} step={0.02} value={theta}
             onChange={(e) => setTheta(+e.target.value)}
-            className="w-32 accent-indigo-500" />
-          <span className="ml-2 text-sm font-mono text-slate-300">{theta.toFixed(2)}</span>
+            className="w-32 accent-[var(--primary)]"
+          />
+          <span className="ml-2 text-sm font-mono text-[var(--text)]">{theta.toFixed(2)}</span>
         </div>
         <div>
-          <label className="mb-1 block text-xs font-medium text-slate-400">Shots</label>
-          <select value={shots} onChange={(e) => setShots(+e.target.value)}
-            className="rounded-md bg-slate-800 px-2 py-1 text-xs text-slate-300">
+          <label className="mb-1 block text-xs font-medium text-[var(--text-muted)]">Shots</label>
+          <select
+            value={shots}
+            onChange={(e) => setShots(+e.target.value)}
+            className="rounded-md border border-[var(--primary)]/20 bg-white px-2 py-1.5 text-xs text-[var(--text)] outline-none"
+          >
             <option value={1000}>1 000</option>
             <option value={5000}>5 000</option>
             <option value={20000}>20 000</option>
@@ -81,30 +86,31 @@ export default function PrecisionPage() {
         </div>
       </section>
 
+      {/* Chart */}
       <section className="card">
         <ResponsiveContainer width="100%" height={350}>
           <LineChart data={data}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
+            <CartesianGrid strokeDasharray="3 3" stroke="rgba(166, 124, 0, 0.1)" />
             <XAxis
-              dataKey="n" stroke="#94a3b8" tick={{ fontSize: 12 }}
-              label={{ value: "Ancilla qubits (n)", position: "insideBottomRight", offset: -5, fill: "#94a3b8", fontSize: 12 }}
+              dataKey="n" stroke="var(--text-muted)" tick={{ fontSize: 12 }}
+              label={{ value: "Ancilla qubits (n)", position: "insideBottomRight", offset: -5, fill: "var(--text-muted)", fontSize: 12 }}
             />
             <YAxis
-              stroke="#94a3b8" tick={{ fontSize: 11 }} scale="log" domain={[1e-5, 1]}
+              stroke="var(--text-muted)" tick={{ fontSize: 11 }} scale="log" domain={[1e-5, 1]}
               tickFormatter={(v) => v.toExponential(0)}
-              label={{ value: "Error (log scale)", angle: -90, position: "insideLeft", fill: "#94a3b8", fontSize: 12 }}
+              label={{ value: "Error (log scale)", angle: -90, position: "insideLeft", fill: "var(--text-muted)", fontSize: 12 }}
             />
             <Tooltip
-              contentStyle={{ background: "#1e293b", border: "1px solid #334155", borderRadius: 8, fontSize: 12 }}
+              contentStyle={{ background: "var(--bg-card)", border: "1px solid rgba(166, 124, 0, 0.15)", borderRadius: 8, fontSize: 12, color: "var(--text)" }}
               formatter={(v) => (typeof v === "number" ? v.toExponential(4) : String(v))}
             />
             <Legend />
             <Line
-              type="monotone" dataKey="error" stroke="#818cf8" strokeWidth={2}
-              dot={{ r: 4, fill: "#818cf8" }} name="Measured error"
+              type="monotone" dataKey="error" stroke="var(--primary)" strokeWidth={2}
+              dot={{ r: 4, fill: "var(--primary)" }} name="Measured error"
             />
             <Line
-              type="monotone" dataKey="bound" stroke="#f43f5e" strokeWidth={2} strokeDasharray="5 5"
+              type="monotone" dataKey="bound" stroke="var(--accent-rose)" strokeWidth={2} strokeDasharray="5 5"
               dot={false} name="1/2ⁿ bound"
             />
           </LineChart>
@@ -112,23 +118,23 @@ export default function PrecisionPage() {
       </section>
 
       {/* Data table */}
-      <section className="overflow-x-auto rounded-xl border border-white/10">
+      <section className="overflow-x-auto rounded-xl border border-[var(--primary)]/15 bg-white">
         <table className="w-full text-left text-sm">
           <thead>
-            <tr className="border-b border-white/10 bg-slate-900/50">
-              <th className="px-4 py-2 font-medium text-slate-400">n</th>
-              <th className="px-4 py-2 font-medium text-slate-400">Error</th>
-              <th className="px-4 py-2 font-medium text-slate-400">1/2ⁿ</th>
-              <th className="px-4 py-2 font-medium text-slate-400">Ratio err/bound</th>
+            <tr className="border-b border-[var(--primary)]/15 bg-[var(--primary)]/5">
+              <th className="px-4 py-2 font-semibold text-[var(--text-muted)]">n</th>
+              <th className="px-4 py-2 font-semibold text-[var(--text-muted)]">Error</th>
+              <th className="px-4 py-2 font-semibold text-[var(--text-muted)]">1/2ⁿ</th>
+              <th className="px-4 py-2 font-semibold text-[var(--text-muted)]">Ratio err/bound</th>
             </tr>
           </thead>
           <tbody>
             {data.map((d) => (
-              <tr key={d.n} className="border-b border-white/5">
+              <tr key={d.n} className="border-b border-[var(--primary)]/10 text-[var(--text)] hover:bg-[var(--primary)]/5 transition-colors">
                 <td className="px-4 py-2 font-mono">{d.n}</td>
-                <td className="px-4 py-2 font-mono text-cyan-300">{d.error}</td>
-                <td className="px-4 py-2 font-mono text-slate-400">{d.bound}</td>
-                <td className="px-4 py-2 font-mono text-slate-500">
+                <td className="px-4 py-2 font-mono text-[var(--accent-cyan)]">{d.error}</td>
+                <td className="px-4 py-2 font-mono text-[var(--text-muted)]">{d.bound}</td>
+                <td className="px-4 py-2 font-mono text-[var(--text-muted)]">
                   {(+d.error / +d.bound).toFixed(2)}×
                 </td>
               </tr>
@@ -138,8 +144,8 @@ export default function PrecisionPage() {
       </section>
 
       <section className="card card-emerald">
-        <h3 className="mb-1 text-sm font-semibold text-slate-300">Key insight</h3>
-        <p className="text-xs leading-relaxed text-slate-400">
+        <h3 className="mb-1 text-sm font-semibold text-[var(--text)]">Key insight</h3>
+        <p className="text-xs leading-relaxed text-[var(--text-muted)]">
           Each additional ancilla qubit halves the error. The measured error closely follows the
           1/2<sup>n</sup> bound. For exactly representable phases (dyadic fractions like φ = 0.375 = 3/8),
           QPE achieves machine precision once n exceeds the binary representation length. For

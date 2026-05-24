@@ -17,9 +17,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="flex min-h-full flex-col bg-[var(--bg-dark)] text-[var(--text)]">
         <Navbar />
         <main className="mx-auto w-full max-w-4xl flex-1 px-4 py-10">{children}</main>
-        <footer className="border-t border-[var(--bg-card)]/10 py-4 text-center text-xs text-[var(--text-muted)]">
-          Built with Next.js • QPE Deep Dive
-        </footer>
       </body>
     </html>
   );

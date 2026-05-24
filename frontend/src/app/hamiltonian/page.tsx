@@ -48,18 +48,13 @@ export default function HamiltonianPage() {
 
   const { est, trueVal, error } = simulateHamQPE(t, n, state);
 
-  const tableData = HAM_EIGVALS.map((_, i) => {
-    const r = simulateHamQPE(t, n, i);
-    return { state: STATE_LABELS[i], trueVal: r.trueVal.toFixed(2), est: r.est.toFixed(6), error: r.error.toExponential(3) };
-  });
-
   return (
     <div className="flex flex-col gap-8">
       <section>
         <h1 className="mb-2 text-2xl font-bold">
           <span className="gradient-text">2. Hamiltonian Eigenvalue Estimation</span>
         </h1>
-        <p className="text-sm leading-relaxed text-slate-400">
+        <p className="text-sm leading-relaxed text-[var(--text-muted)]">
           We scale QPE up to a 2-qubit system. The Hamiltonian is{" "}
           <span className="math">H = 0.5 Z⊗Z + 0.3 Z⊗I</span>, which has four eigenvalues:
           {" "}±0.8 and ±0.2. We prepare each eigenstate, simulate{" "}
@@ -69,16 +64,16 @@ export default function HamiltonianPage() {
       </section>
 
       <section>
-        <h2 className="mb-3 text-lg font-semibold text-slate-300">Eigenvalue table</h2>
-        <div className="overflow-x-auto rounded-xl border border-white/10">
+        <h2 className="mb-3 text-lg font-semibold text-[var(--text)]">Eigenvalue table</h2>
+        <div className="overflow-x-auto rounded-xl border border-[var(--primary)]/15 bg-white">
           <table className="w-full text-left text-sm">
             <thead>
-              <tr className="border-b border-white/10 bg-slate-900/50">
-                <th className="px-4 py-2.5 font-medium text-slate-400">State</th>
-                <th className="px-4 py-2.5 font-medium text-slate-400">True λ</th>
-                <th className="px-4 py-2.5 font-medium text-slate-400">Estimated λ</th>
-                <th className="px-4 py-2.5 font-medium text-slate-400">Error</th>
-                <th className="px-4 py-2.5 font-medium text-slate-400">Phase φ</th>
+              <tr className="border-b border-[var(--primary)]/15 bg-[var(--primary)]/5">
+                <th className="px-4 py-2.5 font-semibold text-[var(--text-muted)]">State</th>
+                <th className="px-4 py-2.5 font-semibold text-[var(--text-muted)]">True λ</th>
+                <th className="px-4 py-2.5 font-semibold text-[var(--text-muted)]">Estimated λ</th>
+                <th className="px-4 py-2.5 font-semibold text-[var(--text-muted)]">Error</th>
+                <th className="px-4 py-2.5 font-semibold text-[var(--text-muted)]">Phase φ</th>
               </tr>
             </thead>
             <tbody>
@@ -87,12 +82,17 @@ export default function HamiltonianPage() {
                 const truePhase = ((-val * t) / (2 * Math.PI)) % 1.0;
                 const phaseStr = (truePhase >= 0 ? truePhase : 1 + truePhase).toFixed(4);
                 return (
-                  <tr key={i} className={`border-b border-white/5 ${i === state ? "bg-indigo-500/10" : ""}`}>
+                  <tr
+                    key={i}
+                    className={`border-b border-[var(--primary)]/10 text-[var(--text)] transition-colors ${
+                      i === state ? "bg-[var(--primary)]/10 font-semibold" : "hover:bg-[var(--primary)]/5"
+                    }`}
+                  >
                     <td className="px-4 py-2 font-mono">{STATE_LABELS[i]}</td>
                     <td className="px-4 py-2">{val.toFixed(2)}</td>
-                    <td className="px-4 py-2 font-mono text-cyan-300">{r.est.toFixed(6)}</td>
-                    <td className="px-4 py-2 font-mono text-rose-400">{r.error}</td>
-                    <td className="px-4 py-2 font-mono text-slate-400">{phaseStr}</td>
+                    <td className="px-4 py-2 font-mono text-[var(--accent-cyan)]">{r.est.toFixed(6)}</td>
+                    <td className="px-4 py-2 font-mono text-[var(--accent-rose)]">{r.error.toExponential(3)}</td>
+                    <td className="px-4 py-2 font-mono text-[var(--text-muted)]">{phaseStr}</td>
                   </tr>
                 );
               })}
@@ -101,39 +101,51 @@ export default function HamiltonianPage() {
         </div>
       </section>
 
-      <section className="flex flex-wrap items-end gap-6 rounded-xl border border-white/10 bg-slate-900/50 p-5">
+      {/* Controls Card */}
+      <section className="card flex flex-wrap items-end gap-6 p-5">
         <div>
-          <label className="mb-1 block text-xs font-medium text-slate-400">Ancilla qubits</label>
-          <input type="range" min={3} max={12} value={n} onChange={(e) => setN(+e.target.value)}
-            className="w-40 accent-indigo-500" />
-          <span className="ml-2 text-sm font-mono text-slate-300">{n}</span>
+          <label className="mb-1 block text-xs font-medium text-[var(--text-muted)]">Ancilla qubits</label>
+          <input
+            type="range" min={3} max={12} value={n}
+            onChange={(e) => setN(+e.target.value)}
+            className="w-40 accent-[var(--primary)]"
+          />
+          <span className="ml-2 text-sm font-mono text-[var(--text)]">{n}</span>
         </div>
         <div>
-          <label className="mb-1 block text-xs font-medium text-slate-400">Eigenstate</label>
-          <div className="flex gap-1">
+          <label className="mb-1 block text-xs font-medium text-[var(--text-muted)]">Eigenstate</label>
+          <div className="flex gap-1.5">
             {STATE_LABELS.map((l, i) => (
-              <button key={i} onClick={() => setState(i)}
-                className={`rounded-md px-3 py-1 text-xs font-mono transition-colors ${
-                  i === state ? "bg-indigo-500 text-white" : "bg-slate-800 text-slate-400 hover:bg-slate-700"
+              <button
+                key={i}
+                onClick={() => setState(i)}
+                className={`rounded-md px-3 py-1.5 text-xs font-mono font-semibold transition-all ${
+                  i === state
+                    ? "bg-[var(--primary)] text-white shadow-sm"
+                    : "bg-white border border-[var(--primary)]/20 text-[var(--text-muted)] hover:bg-[var(--primary)]/10 hover:text-[var(--text)]"
                 }`}
-              >{l}</button>
+              >
+                {l}
+              </button>
             ))}
           </div>
         </div>
         <div className="ml-auto text-right">
-          <div className="text-xs text-slate-500">Selected: {STATE_LABELS[state]}</div>
-          <div className="text-lg font-bold text-emerald-400">
+          <div className="text-xs text-[var(--text-muted)]">Selected: {STATE_LABELS[state]}</div>
+          <div className="text-lg font-bold text-[var(--accent-emerald)]">
             λ ≈ {est.toFixed(5)} &nbsp;
-            <span className="text-xs text-slate-500">(true: {trueVal.toFixed(2)}, err: {error.toExponential(3)})</span>
+            <span className="text-xs font-normal text-[var(--text-muted)]">
+              (true: {trueVal.toFixed(2)}, err: {error.toExponential(3)})
+            </span>
           </div>
         </div>
       </section>
 
       <section className="card">
-        <h3 className="mb-2 text-sm font-semibold text-slate-300">How the circuit works</h3>
-        <p className="text-xs leading-relaxed text-slate-400">
+        <h3 className="mb-2 text-sm font-semibold text-[var(--text)]">How the circuit works</h3>
+        <p className="text-xs leading-relaxed text-[var(--text-muted)]">
           The time evolution U = exp(−iHt) is diagonal in the computational basis (H is a sum of
-          Z⊗Z and Z⊗I terms). We construct U as a <code className="text-cyan-400">DiagonalGate</code> whose
+          Z⊗Z and Z⊗I terms). We construct U as a <code className="text-[var(--accent-cyan)] font-semibold">DiagonalGate</code> whose
           entries are exp(−iλt) for each eigenvalue λ. For each ancilla j, we apply the
           controlled-U<sup>2<sup>j</sup></sup> gate, raising the diagonal entries to the power 2<sup>j</sup>.
           After the inverse QFT, the ancilla measurement yields the phase φ = −λt/(2π) mod 1,
